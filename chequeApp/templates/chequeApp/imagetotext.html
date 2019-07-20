@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>MAIN</title>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "" %}chequeApp/css/imgareaselect-default.css" />
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.imgareaselect.pack.js"></script>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+    <link rel="stylesheet" href="{% static "chequeApp/css/home.css" %}">
+    <script src="{% static "chequeApp/js/home.js" %}"></script>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+    <script type="application/javascript">
+        $(document).ready(function () {
+var modal = document.getElementById('myModal');
+	$('#begin').change(function()
+	{
+    alert("hello1");
+		$('#myForm').submit();
+        modal.style.display = 'block';
+	});
+
+	$('#myForm').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+			$('#ladybug').attr('src',"{% static '' %}{{ ip }}/"+data);
+{#            text1();#}
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+
+});
+    </script>
+</head>
+<body style="background-color: #111; " onload="checkCookie()">
+<center>
+    <div id="clientdetail" style="width: 1250px;background-color: black;border-style: solid;border-color: green;">
+        <span id="msg" class="btn-block btn-primary">EMPLOYEE ID - {{ ip }}</span>
+
+    </div>
+    <div id='mainDiv' style="height:725px;width: 1250px;;background-color: #777;border-style: hidden;border-color: green;">
+
+        <div id='headerDiv' align="center"  style="height: 5%;width:99.8%;background-color: #777;border-style: hidden;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="float: left;height: 95%;width: 99.5%;border-style: hidden;" class="btn-default">
+        <form id="myForm" action="{% url "homeNew" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="docfile" id="begin" class="btn-success btn"/>
+                <input type="hidden" name="loginId" value="{{ ip }}" id="loginid"/>
+            <!--input type="submit" value="Upload"/-->
+
+        </form>
+        </div>
+    </div>
+        <!--div id='leftDiv' style="float: left;height:88%;width:23.8%;background-color: #777;border-style: solid;border-color: green;"-->
+        <!-- List of uploaded documents -->
+        <!--button name="conversion" onclick="text();" id="convert">Convert</button> <br>
+    </div-->
+    <div id='rightDiv' style="float:none;height: 94.8%;width: 99.5%;background-color: #777777;border-style: hidden;border-color: green;">
+        <div id='rightcenterDiv' align="center" style="float: left; background-color: #777777;border-style: solid;border-color: green; height:70%;width: 93%;overflow:auto;">
+            <img class="img-thumbnail" id="ladybug" src="{% static "" %}{{ ip }}/abc.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+        </div>
+        <div id='rightcenterDiv' align="center" style="float: right; background-color: #777777;border-style: solid;border-color: green; height:70%;width: 7%;overflow:auto;">
+            <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="{{ ip }}"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+{#            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('1');" id="convertCropAjaxAC" style="height: 33%;">Crop AC No</button>#}
+{#            <div name="conversionAjax" class="btn-primary" style="height: 33%;"></div>#}
+            <button name="conversion" class="btn-danger" onclick="text('');" id="convert" style="height: 50%; width: 100%;">Extract Entire Image</button><br>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('4','');" id="convertCropAjaxAC" style="height: 49.8%;width: 100%;">Crop Text</button>
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+        </div>
+        <script type="application/javascript">
+{#    var reader = new FileReader();#}
+$(document).ready(function () {
+    $('#ladybug').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+</script>
+        <div id='rightbottomDiv' style="float: left; height:30%;width: 49.9%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+        <textarea id="cropText" placeholder="CROP TEXT" class="btn-primary btn-block" cols="65" rows="30" style="font-size: 18px;color: #ffffff;"></textarea>
+            </div>
+        <div id='rightbottomDiv' style="float: right; height:30%;width: 49.9%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+        <textarea id="imageText" placeholder="ENTIRE TEXT" class="btn-danger btn-block" cols="65" rows="30" style="font-size: 18px;color: #ffffff;"></textarea>
+            </div>
+    </div>
+    </div>
+
+    <div id="myModal" class="modal1">
+  <!-- Modal content -->
+  <div class="modal1-content">
+    <img src="{% static "chequeApp/image/load.gif"%}"/>
+  </div>
+        </div>
+</center>
+</body>
+</html>

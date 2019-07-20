@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static "" %}chequeApp/css/imgareaselect-default.css" />
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.imgareaselect.pack.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+    $('#ladybug').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+    </script>
+    <style>
+        .thumbnail {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+<div style="text-align: center; width: 50%; float: left;">
+<img id="ladybug" src="{% static ""%}/127.0.0.1/abc.png" alt="A ladybug enjoying the fine afternoon."
+ title="A ladybug enjoying the fine afternoon." />
+</div>
+
+<div style="width: 50%; float: left;">
+  <form action="{% url "selectimage" %}" method="post">
+       {% csrf_token %}
+   <input id="x1" type="hidden" name="x1" value="" />
+   <input id="y1" type="hidden" name="y1" value="" />
+   <input id="x2" type="hidden" name="x2" value="" />
+   <input id="y2" type="hidden" name="y2" value="" />
+   <input type="submit" name="submit" value="Submit" />
+  </form>
+
+
+ <h4>Submitted data:</h4>
+
+ <p>
+  <strong>x1</strong>: {{ x1 }}<br />
+  <strong>y1</strong>: {{ y1 }}<br />
+  <strong>x2</strong>: {{ x2 }}<br />
+  <strong>y2</strong>: {{ y2 }}
+ </p>
+
+
+</div>
+</div>
+
+<div class="thumbnail">
+  <img src="{% static ""%}/127.0.0.1/abc.png" alt="Image" />
+</div>
+<div class="thumbnail">
+  <img src="portrait-img.jpg" class="portrait" alt="Image" />
+</div>
+
+
+</body>
+</html>

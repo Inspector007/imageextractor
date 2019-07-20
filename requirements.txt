@@ -1,0 +1,10 @@
+Pillow
+google-api-python-client
+nltk
+oauth2client
+BeautifulSoup4
+sudo apt-get install python-pythonmagick
+geotext
+Pypdf
+pandas
+apt-get install python-mysqldb

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mutualEquity</title>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "" %}chequeApp/css/imgareaselect-default.css" />
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.imgareaselect.pack.js"></script>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+    <link rel="stylesheet" href="{% static "chequeApp/css/home.css" %}">
+    <script src="{% static "chequeApp/js/home.js" %}"></script>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var entryid = "";
+            $("#cropDiv1").hide();
+            $("#cropDiv2").hide();
+            $("#cropDiv3").hide();
+            $("#cropDivX").hide();
+            $("#fileUploadDiv").hide();
+            //$("#downloadlink").hide();
+            $("#rightcenterDiv1").hide();
+            $("#rightcenterDiv2").hide();
+            $("#rightcenterDiv3").hide();
+            $("#upload").click(function () {
+                var f1 = $("#f1").val();
+                var f2 = $("#clientid").val();
+                var f3 = $("#password").val();
+                if(f1 == '' || f2 == "" || f3 == "")
+                {
+                    alert("Provide Input");
+                    return false;
+                }
+                else
+                {
+		            $('#mutualForm').submit();
+                    modal.style.display = 'block';
+                }
+            });
+var modal = document.getElementById('myModal');
+    $('#begin').change(function()
+	{
+        //alert("hello1");
+		$('#myForm').submit();
+        modal.style.display = 'block';
+	});
+
+	$('#myForm').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+			$('#ladybug').attr('src',"{% static '' %}E67386/"+data);
+            //text1();
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+
+	$('#mutualForm').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+            //alert(data);
+            //alert(data);
+            var msg1 = data;
+            var re = /SUCCESSFULLY STORED/;
+            var re1 = /([A-Za-z][0-9]{2,8})/;
+            var found = msg1.match(re);
+            var found1 = msg1.match(re1);
+            var msg = "";
+            var x = "";
+{#            $('#ladybug').attr('src',"{% static '' %}{{ ip }}/"+data);#}
+            if(found.length >= 1){
+
+                        x = msg1.split("+");
+                    //alert(x[0]+"---"+x[1]);
+                    $("#msg").text(x[0]);
+                    $("#msg1").text(x[1]);
+                    //$("#loginid").text(x[1]);
+                    $("#cropid").val(x[1]);
+                    msg = x[0];
+                    entryid = x[1];
+
+            }
+{#            alert("count "+x[2]);#}
+            for(var imgcount=0;imgcount< x[2];imgcount++)
+            {
+{#                /home/puneet/Desktop/deepak/Projects/MysiteV1/mysitev1.1/mysite/chequeApp/static/#}
+                var img = document.getElementById(""+imgcount);
+{#                img.id = ""+imgcount;#}
+                img.src = "{% static '' %}"+x[1]+"/imgFile/page_-"+imgcount+".jpg";
+{#                img.height = "150";#}
+{#                img.width = "100";#}
+{#                document.getElementById('leftimgDiv').appendChild(img);#}
+            }
+            if(msg == "SUCCESSFULLY STORED")
+            {
+                $("#filedetail").show();
+                $("#clientdetail").hide();
+                $("#downloadlink").show();
+                $("#msg").hide();
+            }
+            else
+                $("#filedetail").hide();
+                $("#msg").hide();
+                //$("#downloadlink").hide();
+
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+
+            $("#btnmutualfund").click(function () {
+                $("#cropDiv1").show();
+                $("#rightcenterDiv1").show();
+                $("#cropDiv2").hide();
+                $("#rightcenterDiv2").hide();
+                $("#cropDiv3").hide();
+                $("#rightcenterDiv3").hide();
+                $("#cropDivX").show();
+                $("#btnmunits").attr('disabled',true);
+
+            });
+            $("#btnmutualfundfolio").click(function () {
+                $("#cropDiv2").show();
+                $("#rightcenterDiv2").show();
+                $("#cropDiv1").hide();
+                $("#rightcenterDiv1").hide();
+                $("#cropDiv3").hide();
+                $("#rightcenterDiv3").hide();
+                $("#cropDivX").show();
+                $("#btnmffolio").attr('disabled',true);
+                $("#btnmfunits").attr('disabled',true);
+                $("#btnmfavereageprice").attr('disabled',true);
+            });
+            $("#btnequity").click(function () {
+                $("#cropDiv3").show();
+                $("#rightcenterDiv3").show();
+                $("#cropDiv2").hide();
+                $("#rightcenterDiv2").hide();
+                $("#cropDiv1").hide();
+                $("#rightcenterDiv1").hide();
+                $("#cropDivX").show();
+                $("#btneshares").attr('disabled',true);
+                $("#btneaverageprice").attr('disabled',true);
+            });
+
+            var msg = $("#msg").text();
+            if(msg == "SUCCESSFULLY STORED")
+            {
+                $("#filedetail").show();
+                $("#downloadlink").show();
+                $("#clientdetail").hide();
+                $("#msg").hide();
+            }
+            else
+            {
+                $("#filedetail").hide();
+                $("#downloadlink").hide();
+                $("#msg").hide();
+            }
+
+
+{#            $(document).keypress(function(event) {#}
+{#                 var keycode = event.keyCode || event.which;#}
+{#                if(keycode == '13') {#}
+{#                alert('You pressed a "enter" key in somewhere');#}
+{#                    alert($(this).attr('id'));#}
+{#                }#}
+{#            });#}
+
+            $("img").click(function () {
+                var id = entryid;
+                var imageid = $(this).attr('id');
+                $("#cropid").text(entryid);
+{#                alert(imageid+""+id);#}
+
+                if(imageid != 'ladybug')
+                {
+                    modal.style.display = 'block';
+                    $.ajax({
+                type :'POST',
+                //dataType: 'json',
+                //contentType: 'application/json; charset=utf-8',
+                url: '/converter/mutualimageupload/',
+                data: {'loginid' : entryid,'imgid': imageid},
+                //dataType: 'text',
+                //processData: false,
+                success: function(data) {
+{#                    modal.style.display = 'none';#}
+                    //      alert(data);
+                    modal.style.display = 'none';
+			        $('#ladybug').attr('src',"{% static '' %}"+entryid+"/"+data);
+                    },
+                        failure: function(data) {
+                        alert('Got an error');
+                        }
+                    });
+                }
+
+            });
+});
+    </script>
+</head>
+<body style="background-color: #111;">
+<center>
+    <div id="clientdetail" style="width: 1150px;;background-color: #777;border-style: hidden;border-color: green;">
+
+        <form id="mutualForm" action="{% url "mutualUpload" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 class="text-center"><span class="label label-primary">UPLOAD NSDL FILE</span></h2>
+            <input id="clientid" name="cid" type="text" value="" placeholder="Enter client id" style="width: 50%;"/><br>
+            <input type="text" id="password" name="pwd" placeholder="Enter Password To Unlock Pdf" style="width: 50%;"><br>
+            <input id="f1" type="file" name="mutualfile" style="width: 50%;" class="btn btn-danger"/><br>
+            <input type="button" value="SPLIT PDF" style="width: 30%;" id="upload" class="btn btn-success" contenteditable="false"/>
+            <br>
+            <br>
+        </form>
+
+    </div>
+    <span class="text-center text-info" id="msg"></span>
+        <h4 id="downloadlink"><!--a href="{% static "imgFile.zip" %}" class="btn-success btn">DOWNLOAD IMAGE FILE</a-->
+        <a href="{% url "mutualequity" %}" class="btn-warning btn">BACK</a></h4>
+    <div id="filedetail" style="height:900px; width: 1300px;background-color: #777;border-style: solid;border-color: green;">
+        <div id='leftimgDiv' style="float:left; height: 99.7%;width:9.8%;background-color: #777;border-style: solid;border-color: orange;overflow: auto;">
+            <img class="img-thumbnail" id="0" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="1" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="2" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="3" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="4" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="5" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="6" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="7" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="8" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+            <img class="img-thumbnail" id="9" src="" alt="Image Not Uploaded" style="max-width: 100px;max-height: 200px;width: 100px;height: 200px;"/>
+        </div>
+        <div id='midDiv' style="float:left; height: 99.7%;width: 82%;background-color: #777;border-style: hidden;border-color: green;">
+            <div id="fileUploadDiv" style="float: left;height: 5%;width: 99.7%;background-color: #777;border-style: hidden;border-color: green;">
+                <form id="myForm" action="{% url "homeNew" %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="docfile" id="begin" class="btn-success btn"/>
+                <input type="hidden" name="loginId" value="E67386" id="loginid"/>
+            <!--input type="submit" value="Upload"/-->
+
+                </form>
+
+            </div>
+            <div id='imageDiv' style="float:left; height: 50%;width: 99.7%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+                <img class="img-thumbnail" id="ladybug" src="{% static "" %}E67386/imgFile/abc.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+            </div>
+            <div id='selectDiv' style="float:left; height: 7%;width: 99.7%;background-color: #777;border-style: hidden;border-color: orange;">
+                <input type="button" value="MUTUAL FUND(M)" style="width: 30%;" id="btnmutualfund" class="btn btn-success"/>
+                <input type="button" value="MUTUAL FUND FOLIO(F)" style="width: 30%;" id="btnmutualfundfolio" class="btn btn-success" contenteditable="false"/>
+                <input type="button" value="EQUITY" style="width: 30%;" id="btnequity" class="btn btn-success" contenteditable="false"/>
+            </div>
+            <div id='cropDivX' style="float:left; height: 20%;width: 15%;background-color: #777;border-style: hidden;border-color: red;">
+                    <h2><span class="text-center text-info " id="msg1"></span></h2>
+                    <input type="text" id="mudate" placeholder="Upload Date" style="width: 90%;">
+            </div>
+            <div id='cropDiv' style="float:left; height: 35%;width: 84.7%;background-color: #777;border-style: hidden;border-color: red;">
+                <div id='cropDiv1' style="float:left; height: 99%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                    <div id='cropDiv11' style="height: 15%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                        <span class="label label-primary">Mutual Fund (M)</span>
+                    <input type="text" id="mdpid" placeholder="DP-ID" style="width: 10%;"/>
+                        <input type="button" value="INSERT MUTUAL RECORD" id="insertmutual" class="btn btn-info" onclick="inmutualM();"/>
+                        <input type="button" value="CLEAR" id="insertmutual" class="btn btn-danger" onclick="inmutualM();"/>
+                    <!--input type="text" id="misin" placeholder="ISIN No" style="width: 15%;">
+                    <input type="text" id="munits" placeholder="Units" style="width: 15%;">
+                    <input type="text" id="mfolio" placeholder="Folio Number" style="width: 15%;">
+                    <input type="text" id="maverageprice" placeholder="Average Price" style="width: 15%;"-->
+                    </div>
+                    <table id="t1">
+                        <tr>
+                            <td>ISIN</td>
+                            <td>UNITS</td>
+                        </tr>
+                        <tr>
+                            <td><div id='cropDiv13'>
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv14'>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id='cropDiv2' style="float:left; height: 99%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                    <div id='cropDiv21' style="float:none; height: 15%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                    <!--input type="text" id="mfdpid" placeholder="DP-ID" style="width: 15%;">
+                    <input type="text" id="mfudate" placeholder="Upload Date" style="width: 18%;">
+                    <input type="text" id="mfisin" placeholder="ISIN No" style="width: 15%;">
+                    <input type="text" id="mfunits" placeholder="Units" style="width: 15%;">
+                    <input type="text" id="mffolio" placeholder="Folio Number" style="width: 15%;">
+                    <input type="text" id="mfaverageprice" placeholder="Average Price" style="width: 15%;"-->
+                        <span class="label label-primary">Mutual Fund Folio (F)</span>
+                    <input type="button" value="INSERT MUTUAL FOLIO RECORD" id="insertmutualfolio" class="btn btn-info" onclick="inmutualF();"/>
+                    <input type="button" value="CLEAR" id="insertmutualfolio" class="btn btn-danger" onclick="inmutualF();"/>
+                    </div>
+                    <table id="t2">
+                        <tr>
+                            <td>ISIN</td>
+                            <td>FOLIO No</td>
+                            <td>UNITS</td>
+                            <td>AVG. PRICE</td>
+                        </tr>
+                        <tr>
+                            <td><div id='cropDiv22'>
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv23'>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv24'>
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv25'>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id='cropDiv3' style="float:left; height: 99%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                    <div id='cropDiv31' style="float:none; height: 15%;width: 99%;background-color: #777;border-style: hidden;border-color: red;">
+                    <span class="label label-primary">Equity</span>
+                        <input type="text" id="edpid" placeholder="DP-ID" style="width: 15%;">
+                    <!--input type="text" id="eudate" placeholder="Upload Date" style="width: 18%;">
+                    <input type="text" id="eisin" placeholder="ISIN No" style="width: 15%;">
+                    <input type="text" id="eunits" placeholder="SHARES" style="width: 15%;">
+                    <input type="text" id="efolio" placeholder="Folio Number" style="width: 15%;">
+                    <input type="text" id="eaverageprice" placeholder="Average Price" style="width: 15%;"-->
+                    <input type="button" value="INSERT EQUITY RECORD" id="insertequity" class="btn btn-info" onclick="inmutualE();"/>
+                    <input type="button" value="CLEAR" id="insertequity" class="btn btn-danger" onclick="inmutualE();"/>
+                    </div>
+                    <table id="t3">
+                        <tr>
+                            <td>ISIN</td>
+                            <td>SHARES</td>
+                            <td><!--AVERAGE PRICE--></td>
+                        </tr>
+                        <tr>
+                            <td><div id='cropDiv33'>
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv34'>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div id='cropDiv35'>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                 </div>
+            </div>
+        </div>
+        <div id='rightdDiv' style="float:right; height: 99.7%;width:8%;background-color: #777;border-style: hidden;border-color: red;">
+            <div id='rightcenterDiv1' style="float: right; background-color: #777777;border-style: hidden;border-color: green; height:75%;width: 99%;overflow:auto;">
+                <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="E67386"/>
+                    <input id="rowcount1" type="hidden" name="rowcount1" value="" style="width: 20px;"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+		<button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('22','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DATE</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('21','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DPID</button>
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjax('22','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DATE</button-->
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('23','');" id="btnmisin" style="height: 15%;width: 99.7%;">Crop ISIN</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('24','');" id="btnmunits" style="height: 15%;width: 99.7%;">Crop UNITS</button>
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjax('25','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop Folio No.</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('26','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop Avg-Price</button-->
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+            <script type="application/javascript">
+                {#    var reader = new FileReader();#}
+                $(document).ready(function () {
+                $('#ladybug').imgAreaSelect({
+                onSelectEnd: function (img, selection) {
+                    $('input[name="x1"]').val(selection.x1);
+                    $('input[name="y1"]').val(selection.y1);
+                    $('input[name="x2"]').val(selection.x2);
+                    $('input[name="y2"]').val(selection.y2);
+                }
+                });
+                });
+            </script>
+
+            </div>
+            <div id='rightcenterDiv2' style="float: right; background-color: #777777;border-style: hidden;border-color: green; height:75%;width: 99%;overflow:auto;">
+                <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="E67386"/>
+                    <input id="rowcount2" type="hidden" name="rowcount2" value="" style="width: 20px;"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjax('27','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DPID</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('28','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DATE</button-->
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('29','');" id="btnmfisin" style="height: 15%;width: 99.7%;">Crop ISIN</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('31','');" id="btnmffolio" style="height: 15%;width: 99.7%;">Crop Folio No.</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('30','');" id="btnmfunits" style="height: 15%;width: 99.7%;">Crop UNITS</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('32','');" id="btnmfavereageprice" style="height: 15%;width: 99.7%;">Crop Avg-Price</button>
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+            <script type="application/javascript">
+                {#    var reader = new FileReader();#}
+                $(document).ready(function () {
+                $('#ladybug').imgAreaSelect({
+                onSelectEnd: function (img, selection) {
+                    $('input[name="x1"]').val(selection.x1);
+                    $('input[name="y1"]').val(selection.y1);
+                    $('input[name="x2"]').val(selection.x2);
+                    $('input[name="y2"]').val(selection.y2);
+                }
+                });
+                });
+            </script>
+
+            </div>
+            <div id='rightcenterDiv3' style="float: right; background-color: #777777;border-style: hidden;border-color: green; height:75%;width: 99%;overflow:auto;">
+                <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="E67386"/>
+                    <input id="rowcount3" type="hidden" name="rowcount3" value="" style="width: 20px;"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+
+
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('33','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DPID</button>
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjax('34','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop DATE</button-->
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('35','');" id="btneisin" style="height: 15%;width: 99.7%;">Crop ISIN</button>
+                <button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('36','');" id="btneshares" style="height: 15%;width: 99.7%;">Crop SHARES</button>
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjax('37','');" id="convertCropAjaxAC" style="height: 15%;width: 99.7%;">Crop Folio No.</button-->
+                <!--button name="conversionAjax" class="btn-primary" onclick="textCropAjaxMutualEquity('38','');" id="btneaverageprice" style="height: 15%;width: 99.7%;">Crop Avg-Price</button-->
+
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+            <script type="application/javascript">
+                {#    var reader = new FileReader();#}
+                $(document).ready(function () {
+                $('#ladybug').imgAreaSelect({
+                onSelectEnd: function (img, selection) {
+                    $('input[name="x1"]').val(selection.x1);
+                    $('input[name="y1"]').val(selection.y1);
+                    $('input[name="x2"]').val(selection.x2);
+                    $('input[name="y2"]').val(selection.y2);
+                }
+                });
+                });
+            </script>
+
+            </div>
+        </div>
+     </div>
+    <div id="myModal" class="modal1">
+  <!-- Modal content -->
+  <div class="modal1-content">
+    <img src="{% static "chequeApp/image/load.gif"%}"/>
+  </div>
+        </div>
+</center>
+</body>
+</html>

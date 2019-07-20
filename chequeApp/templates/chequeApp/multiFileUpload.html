@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MAIN</title>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="application/javascript">
+{#    var reader = new FileReader();#}
+         function readURL(input) {
+             if (input.files && input.files[0]) {
+                 var reader = new FileReader();
+{#                alert(reader.type);#}
+                 reader.onload = function (e) {
+                     $('#blah')
+                             .attr('src', e.target.result)
+                             .width(500)
+                             .height(600);
+                 };
+
+                 reader.readAsDataURL(input.files[0]);
+{#                 alert(input.files[0].name+input.files[0].size()+input.files[0].type);#}
+                 alert(input.files[0]);
+                 text(input.files[0])
+             }
+         }
+    function text(fileObj) {
+        id = document.getElementById('loginid').value
+        document.getElementById("btnConvert").disabled = true;
+        alert("client id "+id);
+{#        alert(fileObj);#}
+        //alert("hello");
+        $.ajax({
+{#            type: 'post', // This is the default though, you don't actually need to always mention it#}
+            type :'POST',
+            //dataType: 'json',
+            //contentType: 'application/json; charset=utf-8',
+            url: '/converter/returntext/',
+            data: {'loginid' : id},
+            //dataType: 'text',
+            //processData: false,
+            success: function(data) {
+{#                alert(data)#}
+{#                document.getElementById('imageText').val = data;#}
+            $("#imageText").html(data);
+            $("#btnConvert").prop('disabled',false);
+            },
+            failure: function(data) {
+            alert('Got an error');
+            }
+        });
+        alert(" EXTRACTING.....");
+    }
+</script>
+    <script>
+
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user=getCookie("username");
+    if (user != "") {
+        //alert("Welcome again " + user);
+        document.getElementById('loginid').value = user;
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("username", user, 30);
+           document.getElementById('loginid').value = user;
+       }
+    }
+}
+</script>
+
+
+<style>
+  article, aside, figure, footer, header,
+  menu, nav, section { display: block; }
+    .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {background-color: #008CBA;}
+
+</style>
+
+</head>
+<body style="background-color: #333;" onload="checkCookie()">
+<center>
+    <h3 style="background-color: green;">{{ ip }}</h3>
+<div id='mainDiv' style="height:650px;width: 1200px;;background-color: #ffffff;border-style: solid;border-color: green;">
+    <div id='headerDiv' align="center" style="height: 9.5%;width: 99.5%;background-color: #888;border-style: solid;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url "imagetotext" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="docfile"/>
+                <input type="hidden" name="loginId" value="" id="loginid"/>
+            <input type="submit" value="Upload"/></p>
+        </form>
+    </div>
+
+    <div id='leftDiv' style="float: inherit;height: 89%;width: 99.5%;background-color: #888;border-style: solid;border-color: green; ">
+        <div id='rightcenterDiv' style="float: left; background-color: #ffffff; border-style: solid;border-color: green; height:99%;width:58%;overflow:auto;">
+            <img src="{% static "" %}{{ ip }}/abc.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;"/>
+        </div>
+        <div id='rightDiv' style="float: right; height: 99%;width: 40%;background-color: #ffffff;border-style: solid;border-color: green;overflow:auto;">
+            <!--div style="float: right; border: solid"-->
+            <button id = "btnConvert" name="conversion" onclick="text();">EXTRACT</button> <br>
+{#        <div id="imageText">Helloashdjashd</div>#}
+            <textarea id="imageText" cols="100" rows="38" style="font-size: 18px;color: blue;">Hello</textarea>
+
+        </div>
+    </div>
+
+</center>
+</body>
+</html>

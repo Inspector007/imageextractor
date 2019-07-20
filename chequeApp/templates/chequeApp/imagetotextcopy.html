@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MAIN</title>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "" %}chequeApp/css/imgareaselect-default.css" />
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.imgareaselect.pack.js"></script>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+
+<script type="application/javascript">
+{#    var reader = new FileReader();#}
+
+         function readURL(input) {
+             if (input.files && input.files[0]) {
+                 var reader = new FileReader();
+{#                alert(reader.type);#}
+                 reader.onload = function (e) {
+                     $('#blah')
+                             .attr('src', e.target.result)
+                             .width(500)
+                             .height(600);
+                 };
+
+                 reader.readAsDataURL(input.files[0]);
+{#                 alert(input.files[0].name+input.files[0].size()+input.files[0].type);#}
+                 alert(input.files[0]);
+                 text(input.files[0])
+             }
+         }
+    function text(fileObj) {
+{#      alert(fileObj);#}
+        //alert("hello");
+        $.ajax({
+            url: '/converter/returntextCrop/',
+{#            type: 'post', // This is the default though, you don't actually need to always mention it#}
+            data: fileObj,
+{#            dataType: 'File',#}
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data) {
+{#                alert(data)#}
+{#                document.getElementById('imageText').val = data;#}
+            $("#imageText").html(data);
+            },
+            failure: function(data) {
+            alert('Got an error');
+            }
+        });
+        //alert("!! Successfully Integrated !!");
+         alert(" EXTRACTING.....");
+    }
+</script>
+<style>
+  article, aside, figure, footer, header,
+  menu, nav, section { display: block; }
+    .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {background-color: #008CBA;}
+
+</style>
+
+
+
+</head>
+<body style="background-color: #333;">
+<center>
+    <h3 style="background-color: green;">{{ ip }}</h3>
+
+<div id='mainDiv' style="height:650px;width: 1200px;;background-color: #ffffff;border-style: solid;border-color: green;">
+    <div id='headerDiv' align="center" style="height: 9.5%;width: 99.5%;background-color: #888;border-style: solid;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="float: left;height: 95%;width: 80%;background-color: #888;border-style: solid;border-color: green;">
+        <form id="target" action="{% url "imagetotextcopy" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>
+                {{ form.docfile }}
+            <input type="submit" value="Upload"/></p>
+        </form>
+            </div>
+        <div style="float: right; height: 95%;width: 18%;background-color: #888;border-style: solid;border-color: green;">
+
+        <!--div style="float: right; border: solid"-->
+
+{#        <div id="imageText">Helloashdjashd</div>#}
+            <form action="{% url "selectimagetest" %}" method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input type="submit" name="submit" value="CROP" />
+            </form>
+            <button name="conversion" onclick="text();">EXTRACT</button>
+        </div>
+
+
+
+    </div>
+
+    <div id='leftDiv' style="float: left;: inherit;height: 89%;width: 99.5%;background-color: #888;border-style: solid;border-color: green; ">
+        <div id='rightcenterDiv' style="float: left; background-color: #ffffff; border-style: solid;border-color: green; height:99%;width:58%; overflow: auto;">
+
+            <img id="ladybug" src="{% static ""%}{{ ip }}/abc.jpg" alt="Not Found" style="width: 1024px;height: 768px;"/>
+        </div>
+        <script type="application/javascript">
+{#    var reader = new FileReader();#}
+$(document).ready(function () {
+    $('#ladybug').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+</script>
+        <div id='rightDiv' style="float: right; height: 99%;width: 40%;background-color: #ffffff;border-style: solid;border-color: green;overflow:auto;">
+
+             <h4>Submitted data:</h4>
+
+            <textarea id="imageText" cols="100" rows="38" style="font-size: 20px;color: red;">Hello</textarea>
+
+        </div>
+    </div>
+
+</div>
+</center>
+</body>
+</html>

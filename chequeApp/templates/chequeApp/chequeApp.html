@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+    {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KYC MODIFICATION</title>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "" %}chequeApp/css/imgareaselect-default.css" />
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "" %}chequeApp/js/jquery.imgareaselect.pack.js"></script>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+    <link rel="stylesheet" href="{% static "chequeApp/css/home.css" %}">
+    <script src="{% static "chequeApp/js/home.js" %}"></script>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+    <script type="application/javascript">
+        $(document).ready(function () {
+var modal = document.getElementById('myModal');
+	$('#begin').change(function()
+	{
+    //alert("hello1");
+        menuclear();
+		$('#myForm').submit();
+        modal.style.display = 'block';
+	});
+
+	$('#myForm').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+			$('#ladybug').attr('src',"{% static '' %}{{ ip }}/"+data);
+            text1();
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+    $('#begin1').change(function()
+	{
+    //alert("hello2");
+        menu1clear();
+		$('#myForm1').submit();
+        modal.style.display = 'block';
+	});
+
+	$('#myForm1').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+			$('#ladybug1').attr('src',"{% static '' %}{{ ip }}/"+data);
+            //text('1');
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+
+      $('#begin2').change(function()
+	{
+    //alert("hello3");
+        menu2clear()
+		$('#myForm2').submit();
+        modal.style.display = 'block';
+	});
+            
+	$('#myForm2').submit(function(e){
+	//Preventing the default behavior of the form
+	//Because of this line the form will do nothing i.e will not refresh or redirect the page
+	e.preventDefault();
+	//Creating an ajax method
+	$.ajax({
+		//Getting the url of the uploadphp from action attr of form
+		//this means currently selected element which is our form
+		url: $(this).attr('action'),
+		//For file upload we use post request
+		type: "POST",
+		//Creating data from form
+		data: new FormData(this),
+		//Setting these to false because we are sending a multipart request
+		contentType: false,
+		cache: false,
+		processData: false,
+		success: function(data){
+            modal.style.display = 'none';
+			$('#ladybug2').attr('src',"{% static '' %}{{ ip }}/"+data);
+            //text('2');
+		},
+		error: function(data){
+			alert('Error happen link');
+		}
+	});
+});
+
+});
+    </script>
+</head>
+<body style="background-color: #111;" onload="checkCookie()">
+<center>
+    <div id="clientdetail" style="width: 1150px;;background-color: #777;border-style: solid;border-color: green;">
+        <span id="msg" class="btn-block btn-success">EMPLOYEE ID - {{ ip }}</span>
+        <input id="clientid" type="text" value="" placeholder="Use E67386 or E67387"/>
+        <button onclick="showdetail();" class="btn-primary">Show Client detail</button>
+        <button onclick="cleardetail();" class="btn-danger">Clear</button><br>
+        <input type="text" id="cid" placeholder="Client-ID" style="width: 10%;">
+        <input type="text" id="cname" placeholder="Name" style="width: 15%;">
+        <input type="text" id="caddress" placeholder="Address" style="width: 15%;">
+        <input type="text" id="cac" placeholder="A/C No." style="width: 10%;">
+        <input type="text" id="cpan" placeholder="PAN" style="width: 10%;">
+        <input type="text" id="caadhar" placeholder="AADHAAR" style="width: 10%;">
+        <input type="text" id="cifsc" placeholder="IFSC No." style="width: 10%;">
+        <input type="text" id="cbank" placeholder="Bank" style="width: 15%;">
+    </div>
+    <div class="container">
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#mainDiv">BANK DETAIL</a></li>
+    <li><a data-toggle="tab" href="#coraddressDetail">Correspondance Address</a></li>
+    <li><a data-toggle="tab" href="#peraddressDetail">Permanent Address</a></li>
+    <li><a data-toggle="tab" href="#mobileemailDetail">Mobile / Email</a></li>
+  </ul>
+        <div class="tab-content">
+<div id='mainDiv' class="tab-pane fade" style="height:600px;width: 1145px;;background-color: #777;border-style: solid;border-color: green;">
+    <div id='headerDiv' align="center" style="height: 5%;width:99.8%;background-color: #777;border-style: hidden;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="float: left;height: 95%;width: 100%;background-color: #777;border-style: hidden;border-color: green;">
+        <form id="myForm" action="{% url "homeNew" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="docfile" id="begin" class="btn-success btn"/>
+                <input type="hidden" name="loginId" value="{{ ip }}" id="loginid"/>
+            <!--input type="submit" value="Upload"/-->
+
+        </form>
+        </div>
+{#        <div style="float: right; height: 5%;width: 7%;background-color: #888;border-style: hidden;border-color: green;">#}
+{#            <button name="conversion" class="btn-danger btn-block" onclick="text1();" id="convert" style="width: 99%;">Extract</button>#}
+{#        </div>#}
+    </div>
+    <!--div id='leftDiv' style="float: left;height:88%;width:23.8%;background-color: #777;border-style: solid;border-color: green;"-->
+        <!-- List of uploaded documents -->
+        <!--button name="conversion" onclick="text();" id="convert">Convert</button> <br>
+    </div-->
+    <div id='rightDiv' style="float:none;height: 94.8%;width: 99.5%;background-color: #777777;border-style: hidden;border-color: green;">
+        <div id='rightcenterDiv' align="center" style="float: left; background-color: #777777;border-style: solid;border-color: green; height:70%;width: 93%;overflow:auto;">
+            <img class="img-thumbnail" id="ladybug" src="{% static "" %}{{ ip }}/abc.jpg" alt="Image Not Uploaded" style=" max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+        </div>
+        <div id='rightcenterDiv' align="center" style="float: right; background-color: #777777;border-style: solid;border-color: green; height:70%;width: 7%;overflow:auto;">
+            <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="{{ ip }}"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('1','');" id="convertCropAjaxAC" style="height: 33%;">Crop AC No</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('2','');" id="convertCropAjaxAC" style="height: 33%;">Crop IFSC No</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('3','');" id="convertCropAjaxAC" style="height: 33%;">Crop AC Holder</button>
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+        </div>
+        <script type="application/javascript">
+{#    var reader = new FileReader();#}
+$(document).ready(function () {
+    $('#ladybug').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+</script>
+        <div id='rightbottomDiv' style="float: left; height:30%;width:50%;background-color: #777;border-style: hidden;border-color: green;overflow:auto;">
+            <table>
+                <form method="post">
+                {% csrf_token %}
+                <tr>
+                    <td><h4>A/C No.</h4></td>
+                    <td><input type="text" class="btn-primary" id="accountnumber" name="accountnumber" style="color: white;height: 23px;width: 300px;font-size: 18px;"/></td>
+                </tr>
+                <tr>
+                    <td><h4>IFSC Code</h4></td>
+                    <td><input type="text" class="btn-primary" id="ifsccode" name="ifsccode" style="color: white;height: 23px;width: 300px;font-size: 18px;"/></td>
+                </tr>
+                <tr>
+                    <td><h4>A/C Holder</h4></td>
+                    <td><input type="text" class="btn-primary" id="acholder" name="acholder" style="color: white;height: 23px;width: 300px;font-size: 18px;"/></td>
+                </tr>
+                <!--tr>
+                    <td>MICR</td>
+                    <td><input type="text" id="micr" name="micr"/></td>
+                </tr>
+                <tr>
+                    <td>Bank Name</td>
+                    <td><input type="text" id="bankname" name="bankname"/></td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td><input type="text" id="branch" name="branch"/></td>
+                </tr-->
+                <tr>
+                    <td></td>
+                    </form>
+                    <td><button id="btnbankupdate" onclick="updatebankdetail();">UPDATE</button></td>
+                </tr>
+            </table>
+        </div>
+        <div id='rightbottomDiv' style="float: left; height:30%;width: 49.9%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+        <textarea id="imageText" class="btn-danger btn-block" cols="65" rows="30" placeholder="EXTRACTED TEXT" style="font-size: 13px;color: #ffffff;"></textarea>
+            </div>
+    </div>
+</div>
+<div id='coraddressDetail' class="tab-pane fade" style="height:650px;width: 1145px;;background-color: #777;border-style: solid;border-color: green;">
+     <div id='headerDiv1' align="center" style="height: 5%;width:99.8%;background-color: #777;border-style: hidden;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="float: left;height: 95%;width: 100%;background-color: #777;border-style: hidden;border-color: green;">
+        <form id="myForm1" action="{% url "homeNew1" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="docfile" id="begin1" class="btn-success btn"/>
+                <input type="hidden" name="loginId" value="{{ ip }}" id="loginid"/>
+            <!--input type="submit" value="Upload"/-->
+
+        </form>
+        </div>
+{#        <div style="float: right; height: 5%;width: 7%;background-color: #888;border-style: hidden;border-color: green;">#}
+{#            <button name="conversion" class="btn-danger btn-block" onclick="text1();" id="convert" style="width: 99%;">Extract</button>#}
+{#        </div>#}
+    </div>
+    <!--div id='leftDiv' style="float: left;height:88%;width:23.8%;background-color: #777;border-style: solid;border-color: green;"-->
+        <!-- List of uploaded documents -->
+        <!--button name="conversion" onclick="text();" id="convert">Convert</button> <br>
+    </div-->
+    <div id='rightDiv1' style="float:none;height: 94.8%;width: 99.5%;background-color: #777777;border-style: hidden;border-color: green;">
+        <div id='rightcenterDiv1' align="center" style="float: left; background-color: #777777;border-style: solid;border-color: green; height:62%;width: 93%;overflow:auto;">
+            <img class="img-thumbnail" id="ladybug1" src="{% static "" %}{{ ip }}/abc1.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+        </div>
+        <div id='rightcenterDiv1' align="center" style="float: right; background-color: #777777;border-style: solid;border-color: green; height:62%;width: 7%;overflow:auto;">
+            <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="{{ ip }}"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('5','1');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop ADDRESS</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('6','1');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop CITY</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('7','1');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop STATE</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('8','1');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop ZIP-CODE</button>
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+        </div>
+        <script type="application/javascript">
+{#    var reader = new FileReader();#}
+$(document).ready(function () {
+    $('#ladybug1').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+</script>
+        <div id='rightbottomDiv1' style="float: left; height:38%;width:50%;background-color: #777;border-style: hidden;border-color: green;overflow:auto;">
+            <table>
+                <form method="post">
+                {% csrf_token %}
+                <tr>
+                    <td><h5>ADDRESS-1</h5></td>
+                    <td><input type="text" class="btn-primary" id="address11" name="address11" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ADDRESS-2</h5></td>
+                    <td><input type="text" class="btn-primary" id="address12" name="address12" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ADDRESS-3</h5></td>
+                    <td><input type="text" class="btn-primary" id="address13" name="address13" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+
+                <tr>
+                    <td><h5>CITY</h5></td>
+                    <td><input type="text" class="btn-primary" id="city" name="city" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>STATE</h5></td>
+                    <td><input type="text" class="btn-primary" id="state" name="state" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ZIP-CODE</h5></td>
+                    <td><input type="text" class="btn-primary" id="zipcode" name="zipcode" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                    </form>
+                <!--tr>
+                    <td>Bank Name</td>
+                    <td><input type="text" id="bankname" name="bankname"/></td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td><input type="text" id="branch" name="branch"/></td>
+                </tr-->
+                <tr>
+                    <td></td>
+                    <td><button id="btnbankupdate2" onclick="">UPDATE</button></td>
+                </tr>
+            </table>
+        </div>
+        <div id='rightbottomDiv1' style="float: left; height:38%;width: 49.9%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+        <textarea id="imageText1" class="btn-danger btn-block" placeholder="Entire Text Area" cols="65" rows="30" style="font-size: 13px;color: #ffffff;"></textarea>
+            </div>
+    </div>
+</div>
+    <div id="peraddressDetail" class="tab-pane fade" style="height:650px;width: 1150px;background-color: #777;border-style: solid;border-color: green;">
+    <div id='headerDiv2' align="center" style="height: 5%;width:99.8%;background-color: #777;border-style: hidden;border-color: green;">
+        <!-- Upload form. Note enctype attribute! -->
+        <div style="float: left;height: 95%;width: 100%;background-color: #777;border-style: hidden;border-color: green;">
+        <form id="myForm2" action="{% url "homeNew2" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" name="docfile" id="begin2" class="btn-success btn"/>
+                <input type="hidden" name="loginId" value="{{ ip }}" id="loginid"/>
+            <!--input type="submit" value="Upload"/-->
+
+        </form>
+        </div>
+{#        <div style="float: right; height: 5%;width: 7%;background-color: #888;border-style: hidden;border-color: green;">#}
+{#            <button name="conversion" class="btn-danger btn-block" onclick="text1();" id="convert" style="width: 99%;">Extract</button>#}
+{#        </div>#}
+    </div>
+    <!--div id='leftDiv' style="float: left;height:88%;width:23.8%;background-color: #777;border-style: solid;border-color: green;"-->
+        <!-- List of uploaded documents -->
+        <!--button name="conversion" onclick="text();" id="convert">Convert</button> <br>
+    </div-->
+    <div id='rightDiv2' style="float:none;height: 94.8%;width: 99.8%;background-color: #777777;border-style: hidden;border-color: green;">
+        <div id='rightcenterDiv2' align="center" style="float: left; background-color: #777777;border-style: solid;border-color: green; height:62%;width: 93%;overflow:auto;">
+            <img class="img-thumbnail" id="ladybug2" src="{% static "" %}{{ ip }}/abc2.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+        </div>
+        <div id='rightcenterDiv2' align="center" style="float: right; background-color: #777777;border-style: solid;border-color: green; height:62%;width: 7%;overflow:auto;">
+            <form method="post">
+            {% csrf_token %}
+                <input id="x1" type="hidden" name="x1" value="" />
+                <input id="y1" type="hidden" name="y1" value="" />
+                <input id="x2" type="hidden" name="x2" value="" />
+                <input id="y2" type="hidden" name="y2" value="" />
+                <input id="cropid" type="hidden" name="cropId" value="{{ ip }}"/>
+                <!--input type="submit" name="submit" value="CROP"/-->
+            </form>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('9','2');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop ADDRESS</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('10','2');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop CITY</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('11','2');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop STATE</button>
+            <button name="conversionAjax" class="btn-primary" onclick="textCropAjax('12','2');" id="convertCropAjaxAC" style="height: 24.9%;width: 99.7%;">Crop ZIP-CODE</button>
+            <!--button name="conversion1" onclick="textCrop();" id="convertCrop">Extract Data</button-->
+        </div>
+        <script type="application/javascript">
+{#    var reader = new FileReader();#}
+$(document).ready(function () {
+    $('#ladybug2').imgAreaSelect({
+        onSelectEnd: function (img, selection) {
+            $('input[name="x1"]').val(selection.x1);
+            $('input[name="y1"]').val(selection.y1);
+            $('input[name="x2"]').val(selection.x2);
+            $('input[name="y2"]').val(selection.y2);
+        }
+    });
+});
+</script>
+        <div id='rightbottomDiv2' style="float: left; height:38%;width:50%;background-color: #777;border-style: hidden;border-color: green;overflow:auto;">
+            <table>
+                <form method="post">
+                {% csrf_token %}
+                <tr>
+                    <td><h5>ADDRESS-1</h5></td>
+                    <td><input type="text" class="btn-primary" id="address21" name="address21" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ADDRESS-2</h5></td>
+                    <td><input type="text" class="btn-primary" id="address22" name="address22" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ADDRESS-3</h5></td>
+                    <td><input type="text" class="btn-primary" id="address23" name="address23" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>PER-CITY</h5></td>
+                    <td><input type="text" class="btn-primary" id="city1" name="city1" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>PER-STATE</h5></td>
+                    <td><input type="text" class="btn-primary" id="state1" name="state1" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                <tr>
+                    <td><h5>ZIP-CODE</h5></td>
+                    <td><input type="text" class="btn-primary" id="zipcode1" name="zipcode1" style="color: white;height: 17px;width: 300px;font-size: 16px;"/></td>
+                </tr>
+                    </form>
+                <!--tr>
+                    <td>Bank Name</td>
+                    <td><input type="text" id="bankname" name="bankname"/></td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td><input type="text" id="branch" name="branch"/></td>
+                </tr-->
+                <tr>
+                    <td></td>
+                    <td><button id="btnbankupdate3" onclick="">UPDATE</button></td>
+                </tr>
+            </table>
+        </div>
+        <div id='rightbottomDiv2' style="float: left; height:38%;width: 49.9%;background-color: #777;border-style: solid;border-color: green;overflow:auto;">
+        <textarea id="imageText2" class="btn-danger btn-block" placeholder="Entire Text Area" cols="65" rows="30" style="font-size: 13px;color: #ffffff;"></textarea>
+            </div>
+    </div>
+    </div>
+    <div id="mobileemailDetail" class="tab-pane fade" style="height:600px;width: 1150px;background-color: #777;border-style: solid;border-color: green;">
+      <h3>Mobile/Email</h3>
+      <p>!! Under Construction !!</p>
+    </div>
+        </div>
+    <div id="myModal" class="modal1">
+  <!-- Modal content -->
+  <div class="modal1-content">
+    <img src="{% static "chequeApp/image/load.gif"%}"/>
+  </div>
+        </div>
+</center>
+</body>
+</html>

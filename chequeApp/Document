@@ -1,0 +1,165 @@
+err            <p>{{ form.non_field_errors }}</p>
+            <p>
+                {{ form.docfile.errors }}
+
+<!-- List of uploaded documents -->
+        {% if documents %}
+            <ul>
+                {% for document in documents %}
+                    <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+
+
+
+-------------------------------
+<img src="{% static "" %}{{ ip }}/abc.jpg" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;"/>
+
+
+
+---------------------------
+
+        <p>
+  <strong>x1</strong>: {{ x1 }}<br />
+  <strong>y1</strong>: {{ y1 }}<br />
+  <strong>x2</strong>: {{ x2 }}<br />
+  <strong>y2</strong>: {{ y2 }}
+ </p>
+
+
+ ----------------------------------------
+ def allfileDownload(fileName):
+    filename = fileName  # Select your file here.
+    wrapper = FileWrapper(file(filename))
+    response = HttpResponse(wrapper, content_type='text/plain')
+    response['Content-Length'] = os.path.getsize(filename)
+    name = (fileName.split('/'))[-1]
+    response['Content-Disposition'] = 'attachment; filename="%s"' % (name)
+    return response
+
+
+
+def downloadFile(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    #response = HttpResponse(content_type='text/csv')
+    for i in glob.glob('/home/puneet/Desktop/deepak/Projects/mysite/document/output/*'):
+        print i
+        allfileDownload(i)
+    return HttpResponse('hi')
+
+
+
+
+
+-----------------------google oCR
+billAddr = []
+    consumerNum = []
+    billNumber = []
+    billAmount = []
+    variation = []
+
+
+
+#    repx = re.findall(r"Please do not issue post dated or outstation cheques.*",document)
+    #    document = document.replace(repx[0],'')
+
+    matchNameFind = re.findall(r"(name[:]?\w{2,25})", document.lower())
+    matchFatherNameFind = re.findall(r"(father[s:]?name\w{2,25})", document.lower())
+    matchAddress = re.findall(r"(address[:]?[\w:]{2,30})", document.lower())
+    print("------------------------------------------")
+    print("Name : ", matchNameFind)
+    print("Father Name : ", matchFatherNameFind)
+    print("Address : ", matchAddress)
+
+
+"""
+    address = re.findall(r"Address+.+Consumer Number:",str(document))
+    address = str(address[0]).replace('Address: ','')
+    address = address.replace('Consumer Number:','')
+    address = address.replace('\n','')
+    print '\nBill Address: ', address
+    billAddr.append(str(address))
+
+#    cnn = re.findall(r"Consumer Number:\s[0-9]*\s*\s[0-9]*\s[0-9]*",str(document))
+    cnn = re.findall(r"Consumer Number\s[0-9]*",str(document))
+#    cnn = re.findall(r"Consumer Number:.*Current BHA pun",str(document),re.DOTALL)
+    cnn = str(cnn[0]).replace("Consumer Number:",'')
+    #cnn  = cnn.replace('Current','')
+    print '\nconsumer number: ',cnn
+    consumerNum.append(str(cnn))
+    bnum = re.findall(r"Bill No\s[0-9]*",str(document))
+
+    if  hasNumbers(bnum[0]) == False:
+        bnum = re.findall(r"\d+[0-9]\s[0-9]*Bill No",str(document))
+        bnum = str(bnum[0]).replace(' Bill No','')
+        print '\nBill Number: ', bnum
+        billNumber.append(str(bnum))
+    else:
+        bnum = str(bnum[0]).replace('Bill No ','')
+        print '\nBill Number: ', bnum
+        billNumber.append(str(bnum))
+
+
+    ba = re.findall(r"Bill Amount After Due Date+.+availed last",str(document)),'\n\n'
+    print ba
+    fba = re.findall(r"Rs.+.00",str(ba))
+#    print fba
+    fba = str(fba[0]).replace('Rs.', '')
+    fba = fba.replace('\\n',' ')
+    fba = ' '.join(fba.split())
+    fba = fba.split(' ')
+#    print fba
+    fba.pop(1)
+    fba.pop(2)
+    fba = [x.replace(',','') for x in fba]
+    fba = [float(x) for x in fba]
+    compar = []
+
+    #cal = round(((float(fba[1].replace(',','')) - float(fba[0].replace(',',''))) / float(fba[1].replac$
+    cal = round((((fba[1]) - (fba[0])) / (fba[1]))*100,2)
+    compar.append(cal)
+    #cal = round(((float(fba[2].replace(',','')) - float(fba[1].replace(',',''))) / float(fba[2].replac$
+    cal = round((((fba[1]) - (fba[0])) / (fba[1]))*100,2)
+    compar.append(cal)
+    #cal = round(((float(fba[2].replace(',','')) - float(fba[0].replace(',',''))) / float(fba[2].replac$
+    cal = round((((fba[1]) - (fba[0])) / (fba[1]))*100,2)
+    compar.append(cal)
+    print '\n',compar
+    print '\nBill amount: ',min(fba),'\n\n'
+    billAmount.append(str(min(fba)))
+    compar = [str(t) for t in compar]
+    varn = ' '.join(compar)
+    variation.append(str(varn))
+    tdf = pd.DataFrame()
+    tdf['Bill received for'] = billAddr
+    tdf['Consumer Number'] = consumerNum
+    tdf['Bill Number'] = billNumber
+    tdf['Bill Amount'] = billAmount
+    tdf['Variation'] = variation
+    #print tdf
+    global df
+    df = df.append(tdf)
+
+"""
+ajax image upload
+        <form id="test" action="{% url 'homeNew' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="docfile" id="begin">
+            <input type="hidden" name="loginId" value="{{ ip }}">
+        </form>
+      <p>!! Under Construction !!</p>
+    <img class="img-thumbnail" id="ladybug1" alt="Image Not Uploaded" style="max-width: 1024px;max-height: 1230px;width: 1024px;height: 768px;"/>
+"""
+download
+            if os.path.isdir('%s/mysite/chequeApp/static/%s/output' % (pathFix, cid)) == False:
+                os.mkdir('%s/mysite/chequeApp/static/%s/output' % (pathFix, cid))
+            shutil.make_archive(pathFix + '/mysite/chequeApp/static/pdfFile', 'zip', pathFix + '/mysite/chequeApp/static/'+cid+'/pdfFile/')
+            filename = pathFix + '/mysite/chequeApp/static/pdfFile.zip'
+            wrapper = FileWrapper(file(filename))
+            response = HttpResponse(wrapper, content_type='application/x-zip-compressed')
+            response['Content-Length'] = os.path.getsize(filename)
+            response['Content-Disposition'] = 'attachment; filename="result.zip"'
+

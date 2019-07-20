@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+<script>
+   var client = new XMLHttpRequest();
+
+   function upload()
+   {
+      var file = document.getElementById("images");
+       alert(file);
+      var loginId = document.getElementById('loginid').value;
+       alert(loginId);
+      /* Create a FormData instance */
+      var formData = new FormData();
+      /* Add the file */
+      formData.append("file", file.files[0]);
+      formData.append("loginId", loginId);
+
+      client.open("post", "/converter/test/", true);
+      client.setRequestHeader("Content-Type", "multipart/form-data");
+      client.send(formData);  /* Send to server */
+   }
+
+   /* Check the response status */
+   client.onreadystatechange = function()
+   {
+      if (client.readyState == 4 && client.status == 200)
+      {
+         alert(client.statusText);
+      }
+   }
+</script>
+    <style>
+        body {
+  font: 14px/1.5 helvetica-neue, helvetica, arial, san-serif;
+  padding:10px;
+}
+
+h1 {
+  margin-top:0;
+}
+
+#main {
+  width: 300px;
+  margin:auto;
+  background: #ececec;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+#image-list {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+#image-list li {
+  background: #fff;
+  border: 1px solid #ccc;
+  text-align:center;
+  padding:20px;
+  margin-bottom:19px;
+}
+#image-list li img {
+  width: 258px;
+  vertical-align: middle;
+  border:1px solid #474747;
+}
+    </style>
+</head>
+<body>
+    <div id="main">
+    <h1>Upload Your Images</h1>
+    <form method="post" enctype="multipart/form-data"  name="fileinfo">
+      <input type="file" name="images" id="images" onchange="upload();"/>
+      <input type="text" name="loginId" value="E67386" id="loginid"/>
+      <button type="submit" id="btn">Upload Files!</button>
+    </form>
+
+    <div id="response"></div>
+    <ul id="image-list">
+    </ul>
+  </div>
+</body>
+
+
+</html>

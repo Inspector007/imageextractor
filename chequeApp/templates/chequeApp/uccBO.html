@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="application/javascript">
+{#        document.getElementById("convert").style.visibility = 'hidden';#}
+        $(document).ready(function() {
+            var msg = $("#msg").text();
+            if(msg == "SUCCESSFULLY STORED")
+            {
+                $("#convert").show();
+            }
+            else
+                $("#convert").hide();
+            $("#upload").click(function () {
+                var f1 = $("#f1").val();
+                var f2 = $("#f2").val();
+                if(f1 == '' || f2 == '')
+                {
+                    $("#convert").hide();
+                    alert("Upload Both File");
+                    return false;
+                }
+                else
+                {
+                    $("#convert").show();
+                }
+            });
+            $("#convert").click(function () {
+                $("#convert").hide();
+                $("#msg").hide();
+            });
+        });
+        //function fileCheck() {
+          //  if(document.getElementById("f1").files.length == 0 && document.getElementById("f2").files.length == 0)
+            //{
+              //  console.log("Upload ");
+                //alert("UPLOAD BOTH FILE");
+                //document.getElementById("convert").style.visibility = 'hidden';
+                //return false;
+            //}
+            //else
+            //{
+              //  document.getElementById("convert").style.visibility = 'visible';
+            //}
+        //}
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+    <div class="row">
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success">INSTRUCTION</button>
+                        <ul>
+                            <li style="font-size: 20px;color: blue;">Exchange Data Format</li>
+                                <ul>
+                                    <li style="font-size: 15px;color: red;">File In csv Format</li>
+                                    <li style="font-size: 15px;color: red;">Contain Data With Column(clcode,pan,email,mobile)</li>
+                                    <li style="font-size: 15px;color: red;">Column No.(clcode-1,pan-2,mobile-3,email-4)</li>
+                                </ul>
+                            <li style="font-size: 20px;color: blue;">BO Data Format</li>
+                                <ul>
+                                    <li style="font-size: 15px;color: red;">File In csv Format</li>
+                                    <li style="font-size: 15px;color: red;">Contain Data With Column(clcode,pan,email,mobile)</li>
+                                    <li style="font-size: 15px;color: red;">Column No.(clcode-0,pan-2,mobile-3,email-4)</li>
+                                </ul>
+                        </ul>
+        </div>
+        <div class="col-sm-8">
+            <pre>
+                <h2 class="text-center"><span class="label label-primary">EXCHANG AND BACK OFFICE UPLOAD</span></h2>
+                <form action="{% url "uccupload" %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <h4><span style="color:blue;font-weight:bold">Exchange(NSX,NCX,NSEFO,NSE,MCX,etc...)</span></h4>
+                        <input id="f1" type="file" name="uccfile" class="btn btn-danger btn-block"/>
+                        <h4><span style="color:blue;font-weight:bold">Back Office</span></h4>
+                        <input id="f2" type="file" name="bofile" class="btn btn-danger btn-block"/>
+                    <input type="submit" value="UCC/BO DATA UPLOAD" class="btn btn-success btn-block" id="upload"/>
+                </form>
+                <span class="text-center" id="msg">{{ msgucc }}</span>
+                <form action="{% url "downloadFile" %}" method="post">
+                    {% csrf_token %}
+                    <button id='convert' class="btn btn-info btn-block" name="conversion">COMPARE</button> <br>
+                </form>
+            </pre>
+        </div>
+        <!--div class="col-sm-2"></div-->
+    </div>
+</div>
+</body>
+</html>
